@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ReferentielController extends AbstractController
 {
@@ -40,7 +41,7 @@ class ReferentielController extends AbstractController
      * @param Referentiel $referentiel
      * @param SerializerInterface $serializer
      * @return JsonResponse
-     * /
+     */
     #[Route('/api/referentiels/{id}', name:'detailReferentiel', methods: ['GET'])]
     //getDetailReferentiel == show
     public function getDetailReferentiel(int $id,ReferentielRepository $referentielRepository, SerializerInterface $serializer): JsonResponse
@@ -59,7 +60,7 @@ class ReferentielController extends AbstractController
      * @return JsonResponse
      */
     #[Route('/api/referentiels/{id}', name:'deleteRefentiel', methods: ['DELETE'])]
-    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour supprimer un livre')]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour mettre à jour un referentiel')]
    //deleteReferentiel = destroy
     public function deleteReferentiel(Referentiel $referentiel,  EntityManagerInterface $em) : JsonResponse
     {
@@ -84,11 +85,18 @@ class ReferentielController extends AbstractController
      */
 
     #[Route('/api/referentiels', name:"createReferentiel", methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour mettre à jour un referentiel')]
     //createReferentiel = post
-    public function createReferentiel(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator): JsonResponse
+    public function createReferentiel(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator,ValidatorInterface $validator): JsonResponse
     {
-
         $referentiel = $serializer->deserialize($request->getContent(), Referentiel::class, 'json');
+        // On vérifie les erreurs
+        $errors = $validator->validate($referentiel);
+
+        if ($errors->count() > 0) {
+            return new JsonResponse($serializer->serialize($errors, 'json'), Response::HTTP_BAD_REQUEST, [], true);
+        }
+
         $em->persist($referentiel);
         $em->flush();
 
@@ -124,6 +132,4 @@ class ReferentielController extends AbstractController
                 "status"  => Response::HTTP_NO_CONTENT
             ]);
     }
-
-
 }

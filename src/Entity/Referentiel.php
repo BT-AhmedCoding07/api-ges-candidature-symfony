@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReferentielRepository::class)]
 class Referentiel
@@ -20,6 +21,8 @@ class Referentiel
 
     #[ORM\Column(length: 255)]
     #[Groups(["getReferentiels"])]
+    #[Assert\NotBlank(message: "Le libelle du referentiel est obligatoire")]
+    #[Assert\Length(min: 1, max: 255, minMessage: "Le libelle doit faire au moins {{ limit }} caractères", maxMessage: "Le libelle ne peut pas faire plus de {{ limit }} caractères")]
     private ?string $libelle = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -28,6 +31,8 @@ class Referentiel
 
     #[ORM\Column(length: 255)]
     #[Groups(["getReferentiels"])]
+    #[Assert\NotBlank(message: "L'écheance du referentiel est obligatoire")]
+    #[Assert\Length(min: 1, max: 255, minMessage: "L'écheance doit faire au moins {{ limit }} caractères", maxMessage: "l'écheance ne peut pas faire plus de {{ limit }} caractères")]
     private ?string $echeances = null;
 
     #[ORM\OneToMany(mappedBy: 'referentiel', targetEntity: Candidature::class)]

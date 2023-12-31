@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ReferentielRepository::class)]
 class Referentiel
@@ -14,15 +15,19 @@ class Referentiel
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["getReferentiels"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["getReferentiels"])]
     private ?string $libelle = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(["getReferentiels"])]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["getReferentiels"])]
     private ?string $echeances = null;
 
     #[ORM\OneToMany(mappedBy: 'referentiel', targetEntity: Candidature::class)]

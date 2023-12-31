@@ -20,6 +20,12 @@ class ReferentielRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Referentiel::class);
     }
+    public function findAllWithPagination($page, $limit) {
+        $qb = $this->createQueryBuilder('r')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+        return $qb->getQuery()->getResult();
+    }
 
 //    /**
 //     * @return Referentiel[] Returns an array of Referentiel objects

@@ -20,6 +20,12 @@ class CandidatureRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Candidature::class);
     }
+    public function findAllWithPagination($page, $limit) {
+        $qb = $this->createQueryBuilder('r')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+        return $qb->getQuery()->getResult();
+    }
 
 //    /**
 //     * @return Candidature[] Returns an array of Candidature objects

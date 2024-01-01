@@ -27,7 +27,7 @@ class ReferentielController extends AbstractController
      */
     #[Route('/api/referentiels', name: 'referentiel', methods: ['GET'])]
    //getReferentielList == index
-    public function index(ReferentielRepository $referentielRepository, SerializerInterface $serializer, Request $request): JsonResponse
+    public function getReferentielList(ReferentielRepository $referentielRepository, SerializerInterface $serializer, Request $request): JsonResponse
     {
         //$referentielList = $referentielRepository->findAll();
         $page = $request->get('page', 1);

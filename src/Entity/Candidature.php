@@ -12,17 +12,19 @@ class Candidature
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["getReferentiels"])]
+    #[Groups(["getReferentiels" ,"getCandidatures"])]
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(["getReferentiels"])]
+    #[Groups(["getReferentiels","getCandidatures"])]
     private ?string $status = 'en attente';
 
     #[ORM\ManyToOne(inversedBy: 'candidatures')]
+    #[Groups(["getCandidatures"])]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'candidatures')]
+    #[Groups(["getCandidatures"])]
     private ?Referentiel $referentiel = null;
 
     public function getId(): ?int

@@ -16,7 +16,7 @@ class Referentiel
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(["getReferentiels"])]
+    #[Groups(["getReferentiels","getCandidatures"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -36,6 +36,7 @@ class Referentiel
     private ?string $echeances = null;
 
     #[ORM\OneToMany(mappedBy: 'referentiel', targetEntity: Candidature::class)]
+    #[Groups(["getReferentiels"])]
     private Collection $candidatures;
 
     public function __construct()

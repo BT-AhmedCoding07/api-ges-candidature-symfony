@@ -92,9 +92,37 @@ class CandidatureController extends AbstractController
         $candidature->setUser($userRepository->find($idUser));
         $candidature->setReferentiel($referentielRepository->find($idReferentiel));
         $jsonCandidature = $serializer->serialize($candidature, 'json', ['groups' => 'getCandidatures']);
-
         $location = $urlGenerator->generate('detailCandidature', ['id' => $candidature->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
 
         return new JsonResponse($jsonCandidature, Response::HTTP_CREATED, ["Location" => $location], true);
+    }
+    /**
+     * Cette méthode permet d'accepter une candidature.
+     *
+     * @param Candidature $candidature
+     * @param EntityManagerInterface $em
+     * @return JsonResponse
+     */
+    #[Route('/api/candidatures/{id}/accepter', name: 'accepter_candidature', methods: ['PUT'])]
+    public function accepterCandidature(Candidature $candidature, EntityManagerInterface $em): JsonResponse
+    {
+        $candidature->setStatus('acceptée');
+        $em->flush();
+        return new JsonResponse(['message' => 'Candidature acceptée.'], Response::HTTP_OK);
+    }
+
+    /**
+     * Cette méthode permet de refuser une candidature.
+     *
+     * @param Candidature $candidature
+     * @param EntityManagerInterface $em
+     * @return JsonResponse
+     */
+    #[Route('/api/candidatures/{id}/refuser', name: 'refuser_candidature', methods: ['PUT'])]
+    public function refuserCandidature(Candidature $candidature, EntityManagerInterface $em): JsonResponse
+    {
+        $candidature->setStatus('refusée');
+        $em->flush();
+        return new JsonResponse(['message' => 'Candidature refusée.'], Response::HTTP_OK);
     }
 }

@@ -104,6 +104,7 @@ class CandidatureController extends AbstractController
      * @return JsonResponse
      */
     #[Route('/api/candidatures/{id}/accepter', name: 'accepter_candidature', methods: ['PUT'])]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour supprimer un referentiel')]
     public function accepterCandidature(Candidature $candidature, EntityManagerInterface $em): JsonResponse
     {
         $candidature->setStatus('acceptée');
@@ -119,6 +120,7 @@ class CandidatureController extends AbstractController
      * @return JsonResponse
      */
     #[Route('/api/candidatures/{id}/refuser', name: 'refuser_candidature', methods: ['PUT'])]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour supprimer un referentiel')]
     public function refuserCandidature(Candidature $candidature, EntityManagerInterface $em): JsonResponse
     {
         $candidature->setStatus('refusée');

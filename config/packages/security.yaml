@@ -39,9 +39,14 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
           - { path: ^/api/login, roles: PUBLIC_ACCESS }
+          #- { path: ^/apip/, roles: IS_AUTHENTICATED_FULLY }
+          - { path: ^/apip, roles: PUBLIC_ACCESS }
           - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        # - { path: ^/apip/referentiels, roles: IS_AUTHENTICATED_FULLY }
+        #  - { path: ^/apip/candidatures, roles: IS_AUTHENTICATED_FULLY }
+         # - { path: ^/apip/postuler, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

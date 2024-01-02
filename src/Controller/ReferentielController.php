@@ -19,8 +19,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class ReferentielController extends AbstractController
 {
     /**
-     * Cette méthode permet de récupérer l'ensemble des referentiels.
-     *
+     * Cette méthode permet de récupérer l'ensemble des referentiels
      * @param ReferentielRepository $referentielRepository
      * @param SerializerInterface $serializer
      * @return JsonResponse
@@ -60,7 +59,7 @@ class ReferentielController extends AbstractController
      * @return JsonResponse
      */
     #[Route('/api/referentiels/{id}', name:'deleteRefentiel', methods: ['DELETE'])]
-    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour mettre à jour un referentiel')]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour supprimer un referentiel')]
    //deleteReferentiel = destroy
     public function deleteReferentiel(Referentiel $referentiel,  EntityManagerInterface $em) : JsonResponse
     {
@@ -85,7 +84,7 @@ class ReferentielController extends AbstractController
      */
 
     #[Route('/api/referentiels', name:"createReferentiel", methods: ['POST'])]
-    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour mettre à jour un referentiel')]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous n\'avez pas les droits suffisants pour ajouter un referentiel')]
     //createReferentiel = post
     public function createReferentiel(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator,ValidatorInterface $validator): JsonResponse
     {
